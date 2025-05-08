@@ -1,0 +1,72 @@
+:root {
+    --alert-red: #cc0000;        /*Emergency alerts/Active states*/
+    --classic-blue: #3a86ff;       /* Interactive Elements*/
+    --dark-blue: #0a1a2f;      /* Background Contrast*/
+    --text-light: #f1faee;         /* Primary text colour*/
+}
+
+body {
+    background: linear-gradient(
+        to bottom,
+        var(--alert-red) 0%,
+        var(--classic-blue) 100%
+    );
+    background-attachment: fixed;
+    color: var(--text-light);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: rgba(10, 26, 47, 0.85);
+    border: px solid var(--text-light);
+}
+
+header h1 {
+    color: var(--text-light);
+    text-shadow: 2px 2px 4px var(--dark-blue);
+     font-size: 2.5rem;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+    justify-content: center;
+}
+
+nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 8p 16px;
+    border-radius: 6px;
+    background: rgba(58, 134, 255, 0.3);
+    transition: all 0.3s ease;
+    border: ipx solid var(--text-light);
+}
+
+nav a.active {
+    background: var(--alert-red);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--classic-blue);
+}
+
+nav a:hover {
+    background: var(--classic-blue);
+}
+
+#map {
+    height: 500px;
+    border: 3px solid var(--text-light);
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.alert-feed {
+    
+}

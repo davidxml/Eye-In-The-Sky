@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanEye | Dashboard</title>
+    <link rel="stylesheet" href="Styles/dashboard.css">
+</head>
+<body>
+    <div>   
+        <header>
+            <h1>UrbanEye</h1>
+            <p>Autonomous Crime Surveilance System</p>
+        </header>
+
+        <nav>
+            <a href="index.html" class="active">Live View</a>
+            <a href="control.html">Drone Control</a>
+            <a href="incidents.html">Incidents</a>
+        </nav>
+
+        <section id="map container">
+            <div id="map"></div>            <!--Leaflet.js would come here-->
+        </section>
+
+
+        <div class="alert-feed">
+            <h2>🚨 Active Alerts 🚨</h2>
+            <ul id="alerts"></ul>        
+        </div>
+    </div> 
+
+    <script src="Scripts/dashboard.js"></script>
+    <!--Leaflet.js  for maps-->
+    
+</body>
+</html>
