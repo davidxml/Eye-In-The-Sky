@@ -1,6 +1,6 @@
 :root {
     --alert-red: #cc0000;        /*Emergency alerts/Active states*/
-    --classic-blue: #3a86ff;       /* Interactive Elements*/
+    --classic-blue: #155ac9;       /* Interactive Elements*/
     --dark-blue: #0a1a2f;      /* Background Contrast*/
     --text-light: #f1faee;         /* Primary text colour*/
 }
@@ -26,6 +26,12 @@ body {
     border: px solid var(--text-light);
 }
 
+header {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--text-light);
+}
+
 header h1 {
     color: var(--text-light);
     text-shadow: 2px 2px 4px var(--dark-blue);
@@ -42,11 +48,11 @@ nav {
 nav a {
     color: var(--text-light);
     text-decoration: none;
-    padding: 8p 16px;
+    padding: 8px 16px;
     border-radius: 6px;
     background: rgba(58, 134, 255, 0.3);
     transition: all 0.3s ease;
-    border: ipx solid var(--text-light);
+    border: 1px solid var(--text-light);
 }
 
 nav a.active {
@@ -68,5 +74,40 @@ nav a:hover {
 }
 
 .alert-feed {
-    
+    background: rgba(230, 57, 70, 0.6);
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid var(--text-light);
+}
+
+.alert-feed h2 {
+    margin-top: 0;
+    color: var(--text-light);
+    text-shadow: 0 0 10px var(--alert-red);
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.control-panel {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 15px;
+}
+
+section button {
+    color: var(--text-light);
+    text-decoration: ;
+    padding: ;
+    border-radius: ;
+    transition: ;
+    background: var(--classic-blue) ;
+    border: ;
+
+}
+
+
+
+.control-panel:hover {
+    background: #094bda;
 }
