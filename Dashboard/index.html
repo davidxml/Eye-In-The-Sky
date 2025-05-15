@@ -2,36 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" maximum-scale=1.0, use>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UrbanEye | Dashboard</title>
     <link rel="stylesheet" href="Styles/dashboard.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
-    <div>   
+    <div class="">   
         <header>
-            <h1>UrbanEye</h1>
-            <p>Autonomous Crime Surveilance System</p>
+            <h1>🏙️UrbanEye</h1>
+            <p>Autonomous Crime Surveillance System</p>
         </header>
 
         <nav>
             <a href="index.html" class="active">Live View</a>
-            <a href="control.html">Drone Control</a>
+            <a href="control.html">Drone Controls</a>
             <a href="incidents.html">Incidents</a>
         </nav>
 
-        <section id="map-container" class="container">
-            <div id="map"></div>            <!--Leaflet.js would come here-->
+        <section id="map-container">
+            <div id="map"></div>
         </section>
 
+        <div class="status-row">
+            <!-- Drone Fleet Summary -->
+            <div class="status-card summary-active-bar">
+                <h2>DRONE FLEET <span class="online-status">ONLINE</span></h2>
+                <div class="status-content">
+                    <div class="summary-drone-status-item">
+                        <span class="label">ACTIVE:</span>
+                        <span class="value">3 ONLINE</span>
+                    </div>
+                    <div class="summary-drone-status-item">
+                        <span class="label">HEALTH:</span>
+                        <span class="value avg-battery">87% AVG</span>
+                        <div class="battery-bar" style="--level: 87%"></div>
+                    </div>
+                    <div class="summary-drone-status-item">
+                        <span class="label">MISSION:</span>
+                        <span class="value">PATROL</span>
+                    </div>
+                    <div class="drone-list">
+                        <div class="drone-list-item">
+                            <span class="drone-id">UE-01</span>
+                            <span class="battery-status online">87%</span>
+                        </div>
+                        <div class="drone-list-item">
+                            <span class="drone-id">UE-02</span>
+                            <span class="battery-status online">92%</span>
+                        </div>
+                        <div class="drone-list-item">
+                            <span class="drone-id">UE-03</span>
+                            <span class="battery-status warning">65%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>   
 
-        <div class="alert-feed">
-            <h2>🚨 Active Alerts 🚨</h2>
-            <ul id="alerts"></ul>        
+            <!-- Notifications -->
+            <div class="status-card notification">
+                <h2>🚨 NOTIFICATIONS</h2>
+                <div class="status-content">
+                    <div class="alert-count">3 ACTIVE THREATS</div>
+                    <div class="alert-item critical">
+                        <span class="alert-type">FIGHT</span>
+                        <span class="alert-location">Lagoon Front</span>
+                        <span class="alert-time">2 MIN AGO</span>
+                    </div>
+                    <div class="alert-item warning">
+                        <span class="alert-type">SUSPICIOUS</span>
+                        <span class="alert-location">University Road</span>
+                        <span class="alert-time">5 MIN AGO</span>
+                    </div>
+                    <div class="alert-item info">
+                        <span class="alert-type">RAPID MOTION</span>
+                        <span class="alert-location">Main Library</span>
+                        <span class="alert-time">12 MIN AGO</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div> 
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="Scripts/dashboard.js"></script>
-    <!--Leaflet.js  for maps-->
-    
 </body>
 </html>

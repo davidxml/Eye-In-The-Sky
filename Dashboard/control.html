@@ -1,29 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>UrbanEye | Drone Control</title>
+        <title>UrbanEye | Drone Controls</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="Styles/dashboard.css" rel="stylesheet">
     </head>
     <body>
-    <div class="container">
+    <div class="">
         <header>
-            <h1>Drone Control</h1>
+            <h1>🕹️Drone Controls</h1>
             <p>Manual Override And Patrol Setting</p> 
         </header>
 
         <nav>
             <a href="index.html">Live View</a>
-            <a href="control.html" class="active">Drone Control</a>
+            <a href="control.html" class="active">Drone Controls</a>
             <a href="incidents.html">Incidents</a>
         </nav>
 
-        <section id="" class="control-panel">
-            <button id="takeoff btn"> Takeoff</button>
-            <button id="land btn">Land</button>
-            <button id="patrol btn">Start Patrol</button>
-        </section>
+        <!--DYNAMIC DRONE CARD CONTAINER-->
+        <div class="drone-card">
+            <div>
+                <span class="label">DRONE ID:</span>
+                <spa class="value">UE-01</span>
+            </div>
+            <div>
+                <span class="label">GPS:</span>
+                <span class="value">594.45.678</span>
+            </div>
+            <div>
+                <span class="label">HEALTH:</span>
+                <span class="value battery-status" >89%</span>
+                <div class="battery-bar" style="--level: 87%"></div>
+            </div>
+            <div>
+                <span class="label">MISSION:</span>
+                <span class="value">PATROL</span>
+            </div>
+            <div>
+                <button>RECALL</button>
+                <button>EMERGENCY LAND</button>
+            </div>
+            <div>
+                <span><a href="camera feed links in here">------VIEW CAM-----</a></span>
+            </div>
+
+        </div>
     </div>
 
     <script src="Styles/dashboard.js"></script>
@@ -31,4 +54,4 @@
          //drone logic comes here
     </script>
     </body>
-</html>`````````
+</html>
