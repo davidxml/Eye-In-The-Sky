@@ -4,8 +4,6 @@
   --dark-blue: #020a11;
   --text-light: #f1faee;
   --police-grey: #3a3a3a;
-  --police-strobe-red: rgba(255, 0, 0, 0.3);
-  --police-strobe-blue: rgba(0, 74, 173, 0.3);
   --margin-blue: #1162e6;
   --police-amber: #ffcc00;
   --classic-black: #000000;
@@ -197,6 +195,7 @@ nav a:hover {
   display: flex;
   justify-content: space-between;
 }
+  
 
 .alert-item.critical {
   background-color: rgba(255, 0, 0, 0.1);
@@ -258,7 +257,7 @@ nav a:hover {
       font-size: 0.8rem;
   }
 }
-.drone-card {
+.drone-telemetry {
   background: var(--dark-blue);
   border: 1px solid var(--margin-blue);
   flex: 1;
@@ -266,5 +265,398 @@ nav a:hover {
   padding: 15px;
   border: 1px solid var(--margin-blue);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  min-height: 700px;
+  min-height: auto;
+
+}
+.manual-override {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px ;
+}
+
+.manual-override button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#manual-recall {
+  background: var(--warning-orange);
+  color: black;
+}
+
+#manual-land {
+  background: var(--alert-red);
+  color: white;
+}
+/* ===================== */
+/* FULL-SCREEN INCIDENT PAGE */
+/* ===================== */
+body.incident-page {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--dark-blue);
+    color: var(--text-light);
+    font-family: 'Orbitron', sans-serif;
+}
+
+.incident-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 98%;
+}
+
+header {
+    text-align: center;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--margin-blue);
+}
+
+header h1 {
+    color: var(--text-light);
+    font-size: 2.2rem;
+    margin: 0;
+}
+
+header p {
+    color: var(--text-light);
+    font-family: 'Courier New', monospace;
+    margin: 5px 0 0;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    justify-content: center;
+}
+
+nav a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: rgba(58, 134, 255, 0.3);
+    transition: all 0.3s ease;
+    border: 1px solid var(--text-light);
+    font-size: 0.9rem;
+}
+
+nav a.active {
+    background: var(--alert-red);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--classic-blue);
+}
+
+nav a:hover {
+    background: var(--classic-blue);
+}
+
+.incident-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-group {
+    position: relative;
+    flex: 2;
+    min-width: 250px;
+}
+
+.search-group i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--police-amber);
+}
+
+#search-incidents {
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    background: var(--dark-blue);
+    border: 1px solid var(--margin-blue);
+    color: white;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+.filter-group {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    min-width: 300px;
+}
+
+#incident-filter, #refresh-incidents {
+    padding: 10px 15px;
+    background: var(--dark-blue);
+    border: 1px solid var(--margin-blue);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+}
+
+#refresh-incidents {
+    background: var(--classic-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.table-scroll-container {
+    flex: 1;
+    overflow: auto;
+    margin-bottom: 20px;
+    border: 1px solid var(--margin-blue);
+    border-radius: 8px;
+    background: rgba(2, 10, 17, 0.7);
+}
+
+#incidents-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+#incidents-table th {
+    background: var(--police-grey);
+    padding: 12px;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#incidents-table th:hover {
+    background: var(--margin-blue);
+}
+
+#incidents-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--police-grey);
+}
+
+.incident-type {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.incident-type.weapon {
+    background: rgba(255, 0, 0, 0.2);
+    color: var(--alert-red);
+}
+
+.incident-type.fight {
+    background: rgba(255, 165, 0, 0.2);
+    color: var(--warning-orange);
+}
+
+.incident-type.suspicious {
+    background: rgba(0, 74, 173, 0.2);
+    color: var(--classic-blue);
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+.status-badge.success {
+    background: rgba(0, 255, 0, 0.2);
+    color: var(--success-green);
+}
+
+.status-badge.warning {
+    background: rgba(255, 165, 0, 0.2);
+    color: var(--warning-orange);
+}
+
+.status-badge.critical {
+    background: rgba(255, 0, 0, 0.2);
+    color: var(--alert-red);
+}
+
+.action-cell {
+    white-space: nowrap;
+}
+
+.action-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: transform 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.view-btn {
+    background: var(--classic-blue);
+    color: white;
+}
+
+.resolve-btn {
+    background: var(--success-green);
+    color: black;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.pagination button {
+    padding: 8px 15px;
+    background: var(--police-grey);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: background 0.3s;
+}
+
+.pagination button:hover {
+    background: var(--margin-blue);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .incident-controls {
+        flex-direction: column;
+    }
+    
+    .search-group, .filter-group {
+        min-width: 100%;
+    }
+    
+    #incidents-table {
+        font-size: 0.85rem;
+    }
+    
+    #incidents-table th, #incidents-table td {
+        padding: 8px 10px;
+    }
+    
+    .action-btn {
+        padding: 5px 8px;
+        margin-right: 3px;
+    }
+}
+/* ===================== */
+/* INCIDENT CONTROLS */
+/* ===================== */
+.incident-controls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-group {
+    position: relative;
+    width: 100%;
+}
+
+.filter-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#search-incidents {
+    width: 100%;
+    padding: 10px 10px 10px 35px;
+    background: var(--dark-blue);
+    border: 1px solid var(--margin-blue);
+    color: white;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    box-sizing: border-box;
+}
+
+#incident-filter {
+    min-width: 200px;
+    padding: 10px 15px;
+    background: var(--dark-blue);
+    border: 1px solid var(--margin-blue);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+}
+
+#refresh-incidents {
+    padding: 10px 15px;
+    background: var(--classic-blue);
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .incident-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    #incident-filter {
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: 576px) {
+    .filter-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    #incident-filter, #refresh-incidents {
+        width: 100%;
+    }
 }

@@ -20,32 +20,33 @@
         </nav>
 
         <!--DYNAMIC DRONE CARD CONTAINER-->
-        <div class="drone-card">
+        <div class="drone-telemetry">
             <div>
                 <span class="label">DRONE ID:</span>
-                <spa class="value">UE-01</span>
+                <span class="value" id="drone-id">UE-01</span>
             </div>
             <div>
                 <span class="label">GPS:</span>
-                <span class="value">594.45.678</span>
+                <span class="value" id="drone-location">594.45.678</span>
             </div>
             <div>
                 <span class="label">HEALTH:</span>
-                <span class="value battery-status" >89%</span>
+                <span class="value" id="battery-status" >89%</span>
                 <div class="battery-bar" style="--level: 87%"></div>
             </div>
             <div>
                 <span class="label">MISSION:</span>
-                <span class="value">PATROL</span>
+                <span class="value" id="mission-status">PATROL</span>
             </div>
-            <div>
-                <button>RECALL</button>
-                <button>EMERGENCY LAND</button>
-            </div>
-            <div>
-                <span><a href="camera feed links in here">------VIEW CAM-----</a></span>
+            <div><span class="label">LIVE VIEW:</span>
+                <span class="value" id="drone-cam"><a href="camera feed links in here">View Cam</a></span>
             </div>
 
+            <div class="manual-override">
+                <button id="manual-recall">RECALL</button>
+                <button id="manual-land">EMERGENCY LAND</button>
+            </div>
+            
         </div>
     </div>
 

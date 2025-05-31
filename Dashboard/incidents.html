@@ -1,39 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>UrbanEye | Incidents</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="Styles/dashboard.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="container">
-            <header>
-                <h1>📝Incident Log</h1>
-                <p>Historical Crime Alerts</p>               
-            </header>
+<head>
+    <title>UrbanEye | Incidents</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="Styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="incident-page">
+    <div class="container incident-container">
+        <header>
+            <h1>📝 Incident Command Log</h1>
+            <p>All recorded events and threat classifications</p>
+        </header>
 
-            <nav>
-                <a href="index.html">Live View</a>
-                <a href="control.html">Drone Controls</a>
-                <a href="incidents.html" class="active">Incidents</a>
-            </nav>
+        <nav>
+            <a href="index.html">Live View</a>
+            <a href="control.html">Drone Controls</a>
+            <a href="incidents.html" class="active">Incidents</a>
+        </nav>
 
+        <div class="incident-controls">
+            <div class="search-group">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-incidents" placeholder="Search incidents...">
+            </div>
+            <div class="filter-group">
+                <select id="incident-filter">
+                    <option value="all">All Incidents</option>
+                    <option value="weapon">Weapons</option>
+                    <option value="fight">Fights</option>
+                    <option value="suspicious">Suspicious Activity</option>
+                </select>
+                <button id="refresh-incidents"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+        </div>
+
+        <div class="table-scroll-container">
             <table id="incidents-table">
                 <thead>
                     <tr>
-                        <th>Time</th>
-                        <th>Location</th>
-                        <th>Type</th>
-                        <th>Status</th>
+                        <th onclick="sortTable(0)">Time <i class="fas fa-sort"></i></th>
+                        <th onclick="sortTable(1)">Location <i class="fas fa-sort"></i></th>
+                        <th onclick="sortTable(2)">Type <i class="fas fa-sort"></i></th>
+                        <th onclick="sortTable(3)">Status <i class="fas fa-sort"></i></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Filled By Javascript-->
+                <tbody id="incidents-body">
+                    <!-- Filled dynamically -->
                 </tbody>
             </table>
         </div>
-        <script src="Scripts/dashboard.js"></script>
-    
-    </body>
+
+        <div class="pagination">
+            <button id="prev-page"><i class="fas fa-chevron-left"></i></button>
+            <span id="page-info">Page 1 of 3</span>
+            <button id="next-page"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script src="Scripts/dashboard.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Incident Table Logic
+        let currentPage = 1;
+        const incidentsPerPage = 15;  // Increased for better screen fill
+        let allIncidents = [];
+
+        function loadIncidents() {
+            db.collection("incidents").orderBy("timestamp", "desc").get()
+                .then((querySnapshot) => {
+                    allIncidents = [];
+                    querySnapshot.forEach((doc) => {
+                        allIncidents.push({id: doc.id, ...doc.data()});
+                    });
+                    renderIncidents();
+                    resizeTableContainer(); // Ensure proper sizing after load
+                });
+        }
+
+        function renderIncidents(filter = "all", searchTerm = "") {
+            const filtered = allIncidents.filter(incident => {
+                const matchesFilter = filter === "all" || incident.type === filter;
+                const matchesSearch = searchTerm === "" || 
+                    incident.location.toLowerCase().includes(searchTerm) || 
+                    incident.type.toLowerCase().includes(searchTerm);
+                return matchesFilter && matchesSearch;
+            });
+
+            const startIdx = (currentPage - 1) * incidentsPerPage;
+            const paginated = filtered.slice(startIdx, startIdx + incidentsPerPage);
+
+            const tbody = document.getElementById("incidents-body");
+            tbody.innerHTML = "";
+
+            paginated.forEach(incident => {
+                const row = document.createElement("tr");
+                let statusClass = "";
+                if (incident.status === "pending") statusClass = "warning";
+                if (incident.status === "responded") statusClass = "success";
+                if (incident.status === "critical") statusClass = "critical";
+
+                row.innerHTML = `
+                    <td>${new Date(incident.timestamp).toLocaleString()}</td>
+                    <td>${incident.location}</td>
+                    <td><span class="incident-type ${incident.type}">${incident.type}</span></td>
+                    <td><span class="status-badge ${statusClass}">${incident.status}</span></td>
+                    <td class="action-cell">
+                        <button class="action-btn view-btn" onclick="viewIncident('${incident.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn resolve-btn" onclick="resolveIncident('${incident.id}')">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById("page-info").textContent = 
+                `Page ${currentPage} of ${Math.ceil(filtered.length / incidentsPerPage)}`;
+        }
+
+        function sortTable(columnIndex) {
+            // Your existing sort implementation
+        }
+
+        function resizeTableContainer() {
+            const headerHeight = document.querySelector('header').offsetHeight;
+            const navHeight = document.querySelector('nav').offsetHeight;
+            const controlsHeight = document.querySelector('.incident-controls').offsetHeight;
+            const paginationHeight = document.querySelector('.pagination').offsetHeight;
+            const padding = 40;
+            
+            const tableContainer = document.querySelector('.table-scroll-container');
+            const availableHeight = window.innerHeight - headerHeight - navHeight - controlsHeight - paginationHeight - padding;
+            
+            tableContainer.style.height = `${Math.max(availableHeight, 300)}px`;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Wrap table in scroll container if needed
+            const table = document.getElementById('incidents-table');
+            if (!table.parentElement.classList.contains('table-scroll-container')) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'table-scroll-container';
+                table.parentNode.insertBefore(wrapper, table);
+                wrapper.appendChild(table);
+            }
+            
+            loadIncidents();
+            
+            document.getElementById("search-incidents").addEventListener("input", (e) => {
+                renderIncidents(
+                    document.getElementById("incident-filter").value,
+                    e.target.value.toLowerCase()
+                );
+            });
+            
+            document.getElementById("incident-filter").addEventListener("change", (e) => {
+                renderIncidents(e.target.value);
+            });
+            
+            document.getElementById("refresh-incidents").addEventListener("click", loadIncidents);
+            
+            document.getElementById("prev-page").addEventListener("click", () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderIncidents();
+                }
+            });
+            
+            document.getElementById("next-page").addEventListener("click", () => {
+                const maxPage = Math.ceil(allIncidents.length / incidentsPerPage);
+                if (currentPage < maxPage) {
+                    currentPage++;
+                    renderIncidents();
+                }
+            });
+
+            window.addEventListener('resize', resizeTableContainer);
+        });
+
+        function viewIncident(id) {
+            // Your view implementation
+        }
+
+        function resolveIncident(id) {
+            // Your resolve implementation
+        }
+    </script>
+</body>
 </html>

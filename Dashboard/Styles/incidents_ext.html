@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>UrbanEye | Incidents</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="Styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="incidents-page">
+    <div class="container-fluid">
+        <header>
+            <h1>📝 Incident Command Log</h1>
+            <p>All recorded events and threat classifications</p>
+        </header>
+
+        <nav>
+            <a href="index.html">Live View</a>
+            <a href="control.html">Drone Controls</a>
+            <a href="incidents.html" class="active">Incidents</a>
+        </nav>
+
+        <div class="incident-toolbar">
+            <div class="search-group">
+                <i class="fas fa-search"></i>
+                <input type="text" id="incident-search" placeholder="Search incidents...">
+            </div>
+            <div class="filter-group">
+                <select id="severity-filter">
+                    <option value="all">All Severities</option>
+                    <option value="critical">Critical</option>
+                    <option value="warning">Warnings</option>
+                    <option value="info">Information</option>
+                </select>
+                <button id="export-btn"><i class="fas fa-file-export"></i> Export</button>
+            </div>
+        </div>
+
+        <div class="incident-grid">
+            <div class="grid-header">
+                <div>Time</div>
+                <div>Location</div>
+                <div>Type</div>
+                <div>Severity</div>
+                <div>Drone ID</div>
+                <div>Actions</div>
+            </div>
+            
+            <div class="grid-body" id="incident-data">
+                <!-- Dynamically populated -->
+                <div class="grid-row critical">
+                    <div>2023-11-15 14:32:45</div>
+                    <div>Yaba Market</div>
+                    <div><span class="incident-type weapon">Weapon</span></div>
+                    <div><span class="severity-badge">Critical</span></div>
+                    <div>UE-01</div>
+                    <div class="action-buttons">
+                        <button class="btn-view"><i class="fas fa-eye"></i></button>
+                        <button class="btn-respond"><i class="fas fa-user-shield"></i></button>
+                    </div>
+                </div>
+                
+                <!-- More rows... -->
+            </div>
+        </div>
+
+        <div class="incident-pagination">
+            <button id="prev-page"><i class="fas fa-chevron-left"></i></button>
+            <span>Page 1 of 5</span>
+            <button id="next-page"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script src="Scripts/incidents.js"></script>
+</body>
+</html>
