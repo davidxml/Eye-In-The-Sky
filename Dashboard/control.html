@@ -1,58 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>UrbanEye | Drone Controls</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="Styles/dashboard.css" rel="stylesheet">
-    </head>
-    <body>
-    <div class="">
-        <header>
-            <h1>🕹️Drone Controls</h1>
-            <p>Manual Override And Patrol Setting</p> 
-        </header>
+<head>
+    <title>UrbanEye | Drone Controls</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="Styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+<div>
+    <header>
+        <h1>🕹️Drone Controls</h1>
+        <p>Manual Override And Patrol Setting</p> 
+    </header>
 
-        <nav>
-            <a href="index.html">Live View</a>
-            <a href="control.html" class="active">Drone Controls</a>
-            <a href="incidents.html">Incidents</a>
-        </nav>
+    <nav>
+        <a href="index.html">Live View</a>
+        <a href="control.html" class="active">Drone Controls</a>
+        <a href="incidents.html">Incidents</a>
+    </nav>
 
-        <!--DYNAMIC DRONE CARD CONTAINER-->
-        <div class="drone-telemetry">
-            <div>
-                <span class="label">DRONE ID:</span>
-                <span class="value" id="drone-id">UE-01</span>
-            </div>
-            <div>
-                <span class="label">GPS:</span>
-                <span class="value" id="drone-location">594.45.678</span>
-            </div>
-            <div>
-                <span class="label">HEALTH:</span>
-                <span class="value" id="battery-status" >89%</span>
-                <div class="battery-bar" style="--level: 87%"></div>
-            </div>
-            <div>
-                <span class="label">MISSION:</span>
-                <span class="value" id="mission-status">PATROL</span>
-            </div>
-            <div><span class="label">LIVE VIEW:</span>
-                <span class="value" id="drone-cam"><a href="camera feed links in here">View Cam</a></span>
-            </div>
+    <!--DYNAMIC DRONE CARD CONTAINER-->
+    <div class="drone-telemetry">
+        <div>
+            <span class="label">DRONE ID:</span>
+            <span class="value" id="drone-id">UE-01</span>
+        </div>
+        <div>
+            <span class="label">GPS:</span>
+            <span class="value" id="drone-location">594.45.678</span>
+        </div>
+        <div>
+            <span class="label">HEALTH:</span>
+            <span class="value" id="battery-status">89%</span>
+            <div class="battery-bar" style="--level: 87%"></div>
+        </div>
+        <div>
+            <span class="label">MISSION:</span>
+            <span class="value" id="mission-status">PATROL</span>
+        </div>
+        <div>
+            <span class="label">LIVE VIEW:</span>
+            <span class="value" id="drone-cam"><a href="camera feed links in here">View Cam</a></span>
+        </div>
 
-            <div class="manual-override">
-                <button id="manual-recall">RECALL</button>
-                <button id="manual-land">EMERGENCY LAND</button>
-            </div>
-            
+        <div class="label">CURRENT LOCATION
+            <div class="value" id="location-with-maps" style="width:250px; height:150px; cursor:pointer;"></div>
+        </div>
+
+        <div class="manual-override">
+            <button id="manual-recall">RECALL</button>
+            <button id="manual-land">EMERGENCY LAND</button>
         </div>
     </div>
+</div>
 
-    <script src="Styles/dashboard.js"></script>
-    <script>
-         //drone logic comes here
-    </script>
-    </body>
+<script type="module" src="Scripts/dashboard.js"></script>
+<script type="module" src="Scripts/config.js"></script>
+<script type="module" src="Scripts/drone-service.js"></script>
+<script type="module" src="Scripts/drone-controls.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    let droneLat = 6.5244; // Lagos default
+    let droneLng = 3.3792;
+
+    const map = L.map('location-with-maps').setView([droneLat, droneLng], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const droneIcon = L.icon({
+        iconUrl: 'drone-marker.png',
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+    });
+
+    const marker = L.marker([droneLat, droneLng], { icon: droneIcon }).addTo(map)
+        .bindPopup('Drone Location');
+
+    let accuracyCircle = null;
+
+    if (navigator.geolocation) {
+        // Initial quick location
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                marker.setLatLng([lat, lng]);
+                map.setView([lat, lng], 15);
+            },
+            (err) => {
+                console.warn('Initial geolocation error:', err.message);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+
+        // Real-time location updates
+        navigator.geolocation.watchPosition(
+            function (position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const accuracy = position.coords.accuracy;
+
+                marker.setLatLng([lat, lng]);
+                map.setView([lat, lng]);
+
+                document.getElementById('drone-location').textContent =
+                    lat.toFixed(5) + ', ' + lng.toFixed(5) + ' (±' + Math.round(accuracy) + 'm)';
+
+                if (accuracyCircle) {
+                    accuracyCircle.setLatLng([lat, lng]);
+                    accuracyCircle.setRadius(accuracy);
+                } else {
+                    accuracyCircle = L.circle([lat, lng], {
+                        radius: accuracy,
+                        color: 'blue',
+                        fillColor: '#30f',
+                        fillOpacity: 0.2
+                    }).addTo(map);
+                }
+            },
+            function (error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("Location access denied. Please enable GPS.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location unavailable. Try again or check signal.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("Request timed out. Retrying...");
+                        break;
+                    default:
+                        alert("An unknown geolocation error occurred.");
+                }
+                console.warn('Geolocation error:', error.message);
+            },
+            {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+                timeout: 15000
+            }
+        );
+    } else {
+        alert('Geolocation is not supported by your browser.');
+    }
+
+    // Fullscreen map on click
+    const mapDiv = document.getElementById('location-with-maps');
+    let isFullscreen = false;
+
+    mapDiv.addEventListener('click', function () {
+        isFullscreen = !isFullscreen;
+        if (isFullscreen) {
+            mapDiv.classList.add('fullscreen-map');
+        } else {
+            mapDiv.classList.remove('fullscreen-map');
+        }
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 300);
+    });
+});
+</script>
+</body>
 </html>

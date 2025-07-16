@@ -1,125 +1,172 @@
+/* ===================== */
+/* === CSS VARIABLES === */
+/* ===================== */
 :root {
-  --alert-red: #ff0000;
-  --classic-blue: #155ac9;
-  --dark-blue: #020a11;
-  --text-light: #f1faee;
-  --police-grey: #3a3a3a;
-  --margin-blue: #1162e6;
-  --police-amber: #ffcc00;
-  --classic-black: #000000;
-  --success-green: #00ff00;
-  --warning-orange: #ffa500;
+  /* Color Palette */
+  --alert-red: #ff0000;          /* Critical alerts/errors */
+  --classic-blue: #155ac9;       /* Primary brand color */
+  --dark-blue: #020a11;          /* Main background */
+  --text-light: #f1faee;         /* Primary text color */
+  --police-grey: #3a3a3a;        /* Secondary borders/text */
+  --margin-blue: #1162e6;        /* Accent borders/links */
+  --police-amber: #ffcc00;       /* Warning highlights */
+  --classic-black: #000000;      /* Reserved for special cases */
+  --success-green: #00ff00;      /* Positive status indicators */
+  --warning-orange: #ffa500;     /* Medium priority alerts */
+  --accent-color: #00bcd4;       /* Interactive elements (new) */
+
+  /* Responsive Breakpoints */
+  --phone-max: 576px;            /* Small smartphones */
+  --tablet-max: 768px;           /* Tablets/large phones */
+  --laptop-max: 1200px;          /* Laptops/desktops */
+}
+
+/* ===================== */
+/* === BASE STYLES === */
+/* ===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;         /* Includes padding in element dimensions */
+}
+
+/* Utility class for hiding elements */
+.hidden {
+  display: none !important;
 }
 
 body {
   background-color: var(--dark-blue);
-  background-attachment: fixed;
   color: var(--text-light);
-  font-family: 'Orbitron', sans-serif;
-  margin: 0;
-  padding: 20px;
-  min-height: 100vh;
+  font-family: 'Orbitron', sans-serif;  /* Futuristic font for headings */
+  padding: 10px;
+  min-height: 100vh;                    /* Full viewport height */
+  font-size: 14px;                      /* Base font size (scales up for larger screens) */
+  line-height: 1.5;                     /* Better text readability */
 }
 
+/* Main container for content */
 .container {
-  max-width: 1400px;
-  margin: 0 auto;
-  background-color: rgb(2, 10, 17);
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
-  border: 2px solid var(--margin-blue);
+  width: 100%;
+  max-width: 1400px;                    /* Max width for ultra-wide screens */
+  margin: 0 auto;                       /* Center horizontally */
+  padding: 10px;
+  background-color: var(--dark-blue);
+  border-radius: 8px;
+  border: 1px solid var(--margin-blue);  /* Glowing blue border */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Depth effect */
 }
 
+/* ===================== */
+/* === HEADER STYLES === */
+/* ===================== */
 header {
   text-align: center;
   padding-bottom: 12px;
-  border-bottom: 3px solid var(--margin-blue);
-  margin-bottom: 25px;
+  border-bottom: 3px solid var(--margin-blue); /* Accent line */
+  margin-bottom: 20px;
 }
 
 header h1 {
   color: var(--text-light);
-  text-shadow: 2px 2px 4px var(--dark-blue);
-  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px var(--dark-blue); /* 3D text effect */
+  font-size: 2rem;                           /* Responsive via media queries */
   margin: 0;
 }
 
 header p {
   color: var(--text-light);
-  font-family: 'Courier New', monospace;
-  text-transform: uppercase;
+  font-family: 'Courier New', monospace;      /* Technical/monospace for subtitle */
+  text-transform: uppercase;                  /* Military-style uppercase */
   margin: 5px 0 0;
+  font-size: 0.9rem;
 }
 
+/* ==================== */
+/* === NAVIGATION === */
+/* ==================== */
 nav {
   display: flex;
-  gap: 15px;
-  margin: 25px 0;
+  gap: 8px;                                  /* Space between buttons */
+  margin: 20px 0;
   justify-content: center;
+  flex-wrap: wrap;                           /* Allows wrapping on small screens */
 }
 
 nav a {
   color: var(--text-light);
   text-decoration: none;
-  padding: 8px 16px;
+  padding: 6px 12px;                         /* Clickable area */
   border-radius: 6px;
-  background: rgba(58, 134, 255, 0.3);
-  transition: all 0.3s ease;
-  border: 1px solid var(--text-light);
-  font-size: 0.9rem;
+  background: rgba(58, 134, 255, 0.3);       /* Semi-transparent blue */
+  transition: all 0.3s ease;                 /* Smooth hover effects */
+  border: 1px solid var(--text-light);       /* Outline for visibility */
+  font-size: 0.8rem;
 }
 
+/* Active tab styling */
 nav a.active {
-  background: var(--alert-red);
-  transform: scale(1.05);
-  box-shadow: 0 0 15px var(--classic-blue);
+  background: var(--alert-red);              /* Red for active state */
+  transform: scale(1.05);                    /* Slight zoom effect */
+  box-shadow: 0 0 15px var(--classic-blue);  /* Glow effect */
 }
 
+/* Hover state */
 nav a:hover {
   background: var(--classic-blue);
 }
 
+/* ===================== */
+/* === MAP CONTAINER === */
+/* ===================== */
 #map {
-  height: 500px;
-  border: 3px solid var(--margin-blue);
+  height: 300px;                             /* Default mobile height */
+  border: 2px solid var(--margin-blue);
   border-radius: 8px;
-  margin-bottom: 25px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-  min-height: 600px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);  /* Depth effect */
 }
 
+/* ===================== */
+/* === STATUS CARDS === */
+/* ===================== */
 .status-row {
   display: flex;
-  gap: 20px;
-  margin-top: 0;
+  flex-direction: column;  /* Stack vertically on mobile */
+  gap: 15px;               /* Space between cards */
+  margin-top: 20px;
+}
+
+/* Dashboard panel - used for general panel boxes */
+.dashboard-panel {
+  background: var(--dark-blue);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid var(--margin-blue);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  margin-bottom: 20px;
 }
 
 .status-card {
-  flex: 1;
   background: var(--dark-blue);
   border-radius: 8px;
   padding: 15px;
   border: 1px solid var(--margin-blue);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  min-height: 200px;
 }
 
+/* Special styling for notification cards */
 .notification {
-  border-color: var(--alert-red);
+  border-color: var(--alert-red);  /* Red border for alerts */
 }
 
 .notification h2 {
-  color: var(--alert-red);
+  color: var(--alert-red);         /* Red text for urgency */
   margin-top: 0;
   font-size: 1.2rem;
   border-bottom: 1px solid var(--police-grey);
   padding-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.status-content {
-  padding: 10px 0;
+  text-transform: uppercase;       /* Military-style text */
 }
 
 .summary-active-bar h2 {
@@ -195,7 +242,6 @@ nav a:hover {
   display: flex;
   justify-content: space-between;
 }
-  
 
 .alert-item.critical {
   background-color: rgba(255, 0, 0, 0.1);
@@ -239,39 +285,180 @@ nav a:hover {
   color: var(--warning-orange);
 }
 
-@media (max-width: 768px) {
-  .status-row {
-      flex-direction: column;
-  }
-  
-  #map {
-      min-height: 400px;
-  }
-  
-  nav {
-      flex-wrap: wrap;
-  }
-  
-  nav a {
-      padding: 6px 12px;
-      font-size: 0.8rem;
-  }
+/* ===================== */
+/* === INCIDENT TABLE === */
+/* ===================== */
+/* Scroll container for horizontal overflow */
+.table-scroll-container {
+  width: 100%;
+  overflow-x: auto;       /* Enables horizontal scrolling */
+  margin-bottom: 20px;
+  border: 1px solid var(--margin-blue);
+  border-radius: 8px;
+  background: rgba(2, 10, 17, 0.7); /* Slightly lighter than main BG */
 }
+
+/* Table styling */
+#incidents-table {
+  width: 100%;
+  border-collapse: collapse;  /* Removes double borders */
+  min-width: 800px;           /* Minimum width before scrolling activates */
+}
+
+/* Table header styling */
+#incidents-table th {
+  background: var(--police-grey);
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;            /* Indicates sortable columns */
+  user-select: none;          /* Prevents text selection */
+  position: sticky;           /* Sticks to top during scroll */
+  top: 0;
+  z-index: 10;                /* Ensures header stays above content */
+}
+
+/* Hover effect for headers */
+#incidents-table th:hover {
+  background: var(--margin-blue);
+}
+
+/* Table cell styling */
+#incidents-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--police-grey);
+}
+
+.incident-type {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+.incident-type.weapon {
+  background: rgba(255, 0, 0, 0.2);
+  color: var(--alert-red);
+}
+
+.incident-type.fight {
+  background: rgba(255, 165, 0, 0.2);
+  color: var(--warning-orange);
+}
+
+.incident-type.suspicious {
+  background: rgba(0, 74, 173, 0.2);
+  color: var(--classic-blue);
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+.status-badge.success {
+  background: rgba(0, 255, 0, 0.2);
+  color: var(--success-green);
+}
+
+.status-badge.warning {
+  background: rgba(255, 165, 0, 0.2);
+  color: var(--warning-orange);
+}
+
+.status-badge.critical {
+  background: rgba(255, 0, 0, 0.2);
+  color: var(--alert-red);
+}
+
+.action-cell {
+  white-space: nowrap;
+}
+
+.action-btn {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: transform 0.2s;
+}
+
+.action-btn:hover {
+  transform: scale(1.1);
+}
+
+.view-btn {
+  background: var(--classic-blue);
+  color: white;
+}
+
+.resolve-btn {
+  background: var(--success-green);
+  color: black;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  background: var(--police-grey);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-light);
+  transition: background 0.3s;
+}
+
+.pagination button:hover {
+  background: var(--margin-blue);
+}
+
+/* ===================== */
+/* === DRONE CONTROLS === */
+/* ===================== */
 .drone-telemetry {
   background: var(--dark-blue);
   border: 1px solid var(--margin-blue);
   flex: 1;
   border-radius: 8px;
   padding: 15px;
-  border: 1px solid var(--margin-blue);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  min-height: auto;
-
 }
+
+/* Drone video feed container */
+.drone-feed-container {
+  background: var(--dark-blue);
+  border: 1px solid var(--margin-blue);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Video stream element */
+.drone-feed {
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid var(--classic-blue);
+}
+
 .manual-override {
   margin-top: 15px;
   display: flex;
-  gap: 10px ;
+  gap: 10px;
 }
 
 .manual-override button {
@@ -291,372 +478,325 @@ nav a:hover {
   background: var(--alert-red);
   color: white;
 }
+
+.direction-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.dir-btn {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 4px;
+  background-color: #2d3748;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dir-btn:hover {
+  background-color: var(--accent-color);
+  color: #000;
+}
+
 /* ===================== */
-/* FULL-SCREEN INCIDENT PAGE */
+/* === ANIMATIONS === */
 /* ===================== */
+/* Smooth fade-in animation for dynamic content */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================== */
+/* === MEDIA QUERIES === */
+/* ===================== */
+
+/* Large Phones (576px+) */
+@media (min-width: 576px) {
+  #map {
+    height: 400px;
+  }
+}
+
+/* Tablets/Laptops (768px+) */
+@media (min-width: 768px) {
+  body {
+    padding: 20px;           /* More breathing room */
+  }
+  
+  /* Navigation buttons grow */
+  nav a {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  /* Map expands */
+  #map {
+    height: 500px;
+  }
+  
+  /* Cards switch to 2-column grid */
+  .status-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .status-card {
+    flex: 1 1 calc(50% - 10px); /* Two cards per row */
+  }
+}
+
+/* Large Desktops (992px+) */
+@media (min-width: 992px) {
+  .status-card {
+    flex: 1 1 calc(33.33% - 10px); /* Three cards per row */
+  }
+}
+
+/* TVs/Large Screens (1200px+) */
+@media (min-width: 1200px) {
+  body {
+    font-size: 18px;         /* Larger base text */
+  }
+  
+  /* Header scales up */
+  header h1 {
+    font-size: 3rem;
+  }
+  
+  /* Map becomes taller */
+  #map {
+    height: 600px;
+  }
+  
+  /* 4-column card layout */
+  .status-card {
+    flex: 1 1 calc(25% - 15px);
+  }
+  
+  /* Larger table cells */
+  #incidents-table th, 
+  #incidents-table td {
+    padding: 16px 20px;
+    font-size: 1.1rem;
+  }
+  
+  /* Larger control buttons */
+  .dir-btn {
+    width: 80px;
+    height: 80px;
+    font-size: 1.5rem;
+  }
+  
+  .manual-override button {
+    padding: 15px 25px;
+    font-size: 1.1rem;
+  }
+}
+
+/* ===================== */
+/* === INCIDENT PAGE SPECIFIC STYLES === */
+/* ===================== */
+
 body.incident-page {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--dark-blue);
-    color: var(--text-light);
-    font-family: 'Orbitron', sans-serif;
+  background-color: var(--dark-blue);
+  padding: 10px;
 }
 
 .incident-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    max-width: 100%;
-    margin: 0 auto;
-    width: 98%;
+  padding: 20px;
 }
 
-header {
-    text-align: center;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-    border-bottom: 3px solid var(--margin-blue);
-}
-
-header h1 {
-    color: var(--text-light);
-    font-size: 2.2rem;
-    margin: 0;
-}
-
-header p {
-    color: var(--text-light);
-    font-family: 'Courier New', monospace;
-    margin: 5px 0 0;
-}
-
-nav {
-    display: flex;
-    gap: 15px;
-    margin: 20px 0;
-    justify-content: center;
-}
-
-nav a {
-    color: var(--text-light);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    background: rgba(58, 134, 255, 0.3);
-    transition: all 0.3s ease;
-    border: 1px solid var(--text-light);
-    font-size: 0.9rem;
-}
-
-nav a.active {
-    background: var(--alert-red);
-    transform: scale(1.05);
-    box-shadow: 0 0 15px var(--classic-blue);
-}
-
-nav a:hover {
-    background: var(--classic-blue);
-}
-
+/* Search and filter controls */
 .incident-controls {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 15px;
-    flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: center;
 }
 
 .search-group {
-    position: relative;
-    flex: 2;
-    min-width: 250px;
+  position: relative;
+  min-width: 250px;
 }
 
 .search-group i {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--police-amber);
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--police-amber);
+  font-size: 0.9rem;
 }
 
 #search-incidents {
-    width: 100%;
-    padding: 10px 10px 10px 35px;
-    background: var(--dark-blue);
-    border: 1px solid var(--margin-blue);
-    color: white;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  background: var(--dark-blue);
+  border: 1px solid var(--margin-blue);
+  color: var(--text-light);
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  transition: border-color 0.3s;
+}
+
+#search-incidents:focus {
+  outline: none;
+  border-color: var(--accent-color);
 }
 
 .filter-group {
-    display: flex;
-    gap: 10px;
-    flex: 1;
-    min-width: 300px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-#incident-filter, #refresh-incidents {
-    padding: 10px 15px;
-    background: var(--dark-blue);
-    border: 1px solid var(--margin-blue);
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
+#incident-filter {
+  padding: 10px 15px;
+  background: var(--dark-blue);
+  border: 1px solid var(--margin-blue);
+  color: var(--text-light);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  min-width: 180px;
 }
 
 #refresh-incidents {
-    background: var(--classic-blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+  padding: 10px 15px;
+  background: var(--classic-blue);
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s;
 }
 
-.table-scroll-container {
-    flex: 1;
-    overflow: auto;
-    margin-bottom: 20px;
-    border: 1px solid var(--margin-blue);
-    border-radius: 8px;
-    background: rgba(2, 10, 17, 0.7);
+#refresh-incidents:hover {
+  background-color: var(--margin-blue);
 }
+
+/* Enhanced table styling */
+.table-scroll-container {
+  width: 100%;
+  overflow: auto;
+  margin-bottom: 20px;
+  border: 1px solid var(--margin-blue);
+  border-radius: 8px;
+  background: rgba(2, 10, 17, 0.7);
+  min-height: 60vh;
+}
+
 
 #incidents-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px;
 }
+
 
 #incidents-table th {
-    background: var(--police-grey);
-    padding: 12px;
-    text-align: left;
-    cursor: pointer;
-    user-select: none;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  background: var(--police-grey);
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-#incidents-table th:hover {
-    background: var(--margin-blue);
+
+#incidents-table th i {
+  font-size: 0.8em;
+  transition: transform 0.3s;
 }
 
-#incidents-table td {
-    padding: 12px;
-    border-bottom: 1px solid var(--police-grey);
+#incidents-table th.sorted-asc i.fa-sort-up,
+#incidents-table th.sorted-desc i.fa-sort-down {
+  color: var(--accent-color);
 }
 
-.incident-type {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    display: inline-block;
-    min-width: 80px;
-    text-align: center;
-}
-
-.incident-type.weapon {
-    background: rgba(255, 0, 0, 0.2);
-    color: var(--alert-red);
-}
-
-.incident-type.fight {
-    background: rgba(255, 165, 0, 0.2);
-    color: var(--warning-orange);
-}
-
-.incident-type.suspicious {
-    background: rgba(0, 74, 173, 0.2);
-    color: var(--classic-blue);
-}
-
-.status-badge {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    display: inline-block;
-    min-width: 80px;
-    text-align: center;
-}
-
-.status-badge.success {
-    background: rgba(0, 255, 0, 0.2);
-    color: var(--success-green);
-}
-
-.status-badge.warning {
-    background: rgba(255, 165, 0, 0.2);
-    color: var(--warning-orange);
-}
-
-.status-badge.critical {
-    background: rgba(255, 0, 0, 0.2);
-    color: var(--alert-red);
-}
-
+/* Enhanced action buttons */
 .action-cell {
-    white-space: nowrap;
+  display: flex;
+  gap: 8px;
 }
 
-.action-btn {
-    padding: 6px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 5px;
-    transition: transform 0.2s;
-}
-
-.action-btn:hover {
-    transform: scale(1.1);
-}
-
-.view-btn {
-    background: var(--classic-blue);
-    color: white;
-}
-
-.resolve-btn {
-    background: var(--success-green);
-    color: black;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.pagination button {
-    padding: 8px 15px;
-    background: var(--police-grey);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    color: var(--text-light);
-    transition: background 0.3s;
-}
-
-.pagination button:hover {
-    background: var(--margin-blue);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .incident-controls {
-        flex-direction: column;
-    }
-    
-    .search-group, .filter-group {
-        min-width: 100%;
-    }
-    
-    #incidents-table {
-        font-size: 0.85rem;
-    }
-    
-    #incidents-table th, #incidents-table td {
-        padding: 8px 10px;
-    }
-    
-    .action-btn {
-        padding: 5px 8px;
-        margin-right: 3px;
-    }
-}
 /* ===================== */
-/* INCIDENT CONTROLS */
+/* === RESPONSIVE ADJUSTMENTS === */
 /* ===================== */
-.incident-controls {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 15px;
-    margin-bottom: 20px;
-    align-items: center;
-}
 
-.search-group {
-    position: relative;
-    width: 100%;
-}
-
-.filter-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-#search-incidents {
-    width: 100%;
-    padding: 10px 10px 10px 35px;
-    background: var(--dark-blue);
-    border: 1px solid var(--margin-blue);
-    color: white;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    box-sizing: border-box;
-}
-
-#incident-filter {
-    min-width: 200px;
-    padding: 10px 15px;
-    background: var(--dark-blue);
-    border: 1px solid var(--margin-blue);
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
-}
-
-#refresh-incidents {
-    padding: 10px 15px;
-    background: var(--classic-blue);
-    border: none;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
-    white-space: nowrap;
-}
-
-/* Responsive adjustments */
 @media (max-width: 992px) {
-    .incident-controls {
-        grid-template-columns: 1fr;
-    }
-    
-    .filter-group {
-        width: 100%;
-    }
-    
-    #incident-filter {
-        flex-grow: 1;
-    }
+  .incident-controls {
+    grid-template-columns: 1fr;
+  }
+  
+  .filter-group {
+    width: 100%;
+  }
+  
+  #incident-filter {
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  #incidents-table th, 
+  #incidents-table td {
+    padding: 10px 12px;
+  }
+  
+  .action-btn {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 @media (max-width: 576px) {
-    .filter-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    #incident-filter, #refresh-incidents {
-        width: 100%;
-    }
+  .filter-group {
+    flex-direction: column;
+  }
+  
+  .table-scroll-container {
+    max-height: 50vh;
+  }
+}
+
+.drone-marker {
+  text-align: center;
+  font-size: 1.5em;
+}
+.drone-marker.selected {
+  filter: drop-shadow(0 0 5px var(--margin-blue));
+}
+.drone-id {
+  display: block;
+  font-size: 0.4em;
+  margin-top: -5px;
+}
+
+.fullscreen-map {
+    position: fixed !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999;
 }

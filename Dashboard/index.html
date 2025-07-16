@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
-    <div class="container">   
+    <div class="container incident-container">   
         <header>
             <h1>🏙️UrbanEye</h1>
             <p>Autonomous Crime Surveillance System</p>
@@ -84,7 +84,12 @@
         </div>
     </div> 
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="Scripts/dashboard.js"></script>
+   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="Scripts/config.js"></script>
+<script type="module" src="Scripts/firebase-mock.js"></script>
+<script type="module" src="Scripts/drone-service.js"></script>
+<script type="module" src="Scripts/incident-service.js"></script>
+<script type="module" src="Scripts/map-service.js"></script>
+<script type="module" src="Scripts/dashboard.js"></script>
 </body>
 </html>
